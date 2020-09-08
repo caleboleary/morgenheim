@@ -491,9 +491,7 @@ Wisdom: 48
         : {}),
     };
 
-    setResults({
-      ...results,
-    });
+    setResults(results);
 
     setFormattedSheet(createFormattedSheet(results));
 
