@@ -81,6 +81,10 @@ pre {
   min-height: 100px;
 }
 
+.right textarea.formatted {
+  min-height: 180px;
+}
+
 .right > div {
-  min-width: 300px;
+  min-width: 340px;
 }

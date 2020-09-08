@@ -84,7 +84,10 @@ const SKILLS = {
     { name: "Parry", secondary: true, level: 20 },
     { name: "Retaliate", secondary: true, level: 25 },
     { name: "Charge", secondary: false, level: 30 },
-    { name: "Immovable", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   warrior: [
     { name: "Deliberate Strike", secondary: true, level: 1 },
@@ -97,6 +100,8 @@ const SKILLS = {
     { name: "Bellow", secondary: false, level: 30 },
     { name: "Cyclone Whirl", secondary: false, level: 35 },
     { name: "Berserk", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   scout: [
     { name: "Uncanny Aim", secondary: true, level: 1 },
@@ -107,6 +112,10 @@ const SKILLS = {
     { name: "Eagle Eye", secondary: true, level: 20 },
     { name: "Bandage Wounds", secondary: true, level: 25 },
     { name: "Rain Arrows", secondary: false, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   rogue: [
     { name: "Dual Proficiency", secondary: true, level: 1 },
@@ -117,6 +126,10 @@ const SKILLS = {
     { name: "Shadowstep", secondary: false, level: 20 },
     { name: "Disengage", secondary: true, level: 25 },
     { name: "Treasure Hunter", secondary: true, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   mage: [
     { name: "Spark", secondary: true, level: 1 },
@@ -130,6 +143,7 @@ const SKILLS = {
     { name: "Windstorm", secondary: false, level: 35 },
     { name: "Wind or Fire Mastery", secondary: false, level: 40 },
     { name: "Silence", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   priest: [
     { name: "Riptide", secondary: true, level: 1 },
@@ -140,6 +154,10 @@ const SKILLS = {
     { name: "Group Heal", secondary: false, level: 20 },
     { name: "Cleanse", secondary: false, level: 25 },
     { name: "Restore Limb", secondary: false, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   samurai: [
     { name: "Undecided", secondary: false, level: 1 },
@@ -150,6 +168,10 @@ const SKILLS = {
     { name: "Undecided", secondary: false, level: 20 },
     { name: "Undecided", secondary: false, level: 25 },
     { name: "Undecided", secondary: false, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   ninja: [
     { name: "Scale Wall", secondary: true, level: 1 },
@@ -160,6 +182,10 @@ const SKILLS = {
     { name: "Undecided", secondary: false, level: 20 },
     { name: "Undecided", secondary: false, level: 25 },
     { name: "Undecided", secondary: false, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
   summoner: [
     { name: "Ether Sight", secondary: true, level: 1 },
@@ -170,6 +196,10 @@ const SKILLS = {
     { name: "Banish Construct", secondary: false, level: 20 },
     { name: "Repair Construct", secondary: false, level: 25 },
     { name: "Pilot Construct", secondary: false, level: 30 },
+    { name: "Undecided", secondary: false, level: 35 },
+    { name: "Undecided", secondary: false, level: 40 },
+    { name: "Undecided", secondary: false, level: 45 },
+    { name: "Undecided", secondary: false, level: 50 },
   ],
 };
 
@@ -277,6 +307,7 @@ const EXP_REQUIREMENTS = [
 ];
 
 const App = () => {
+  const [name, setName] = React.useState("");
   const [primClass, setPrimClass] = React.useState(null);
   const [primLvl, setPrimLvl] = React.useState(0);
   const [secClass, setSecClass] = React.useState(null);
@@ -291,22 +322,8 @@ const App = () => {
   const [formattedSheet, setFormattedSheet] = React.useState("");
   const [userEnteredSnapshot, setUserEnteredSnapshot] = React.useState("");
 
-  React.useState(() => {
-    setResults("");
-  }, [
-    primClass,
-    primLvl,
-    secClass,
-    secLvl,
-    stamBonus,
-    dexBonus,
-    strBonus,
-    intBonus,
-    wisBonus,
-  ]);
-
   const calcSingleStat = (statName) => {
-    if (!secLvl) {
+    if (!secLvl || !secClass) {
       return primLvl * STATS_PER_LEVEL[primClass][statName];
     } else {
       return (
@@ -322,6 +339,7 @@ const App = () => {
   };
 
   const reset = () => {
+    setName("");
     setPrimClass(null);
     setPrimLvl(0);
     setSecClass(null);
@@ -338,6 +356,7 @@ const App = () => {
   const createSnapshot = () => {
     const b64 = btoa(
       JSON.stringify({
+        n: name,
         pc: primClass,
         pl: primLvl,
         sc: secClass,
@@ -391,7 +410,9 @@ Wisdom: 48
     const classesWithFury = ["warrior"];
     const classesWithConcentration = ["rogue", "scout", "ninja", "samurai"];
 
+    //TODO: need to add extras in parens like example
     const sheet =
+      `${name}\n` +
       `Main Class: Level ${primLvl} ${capFirst(primClass)} (?/${
         results.primExpToNextLevel
       })\n` +
@@ -420,13 +441,16 @@ Wisdom: 48
       `Intelligence: ${results.stats.intelligence}\n` +
       `Wisdom: ${results.stats.wisdom}\n`;
 
-    console.log(sheet);
     return sheet;
   };
 
   const interpretSnapshot = () => {
+    /*
+    eyJu Ijoi U2V0 aCIs InBj Ijoi d2Fy cmlv ciIs InBs Ijoi NTEi LCJz YyI6 InN1 bW1v bmVy Iiwi c2wi OiIx MSIs ImFz dGEi OjAs ImFk ZXgi OiI0 Iiwi YXN0 ciI6 IjI3 Iiwi YWlu dCI6 MCwi YXdp cyI6 MH0=
+    */
     const cleaned = userEnteredSnapshot.replace(/\s/g, "").replace(/"/g, "");
     const obj = JSON.parse(atob(cleaned));
+    setName(obj.n);
     setPrimClass(obj.pc);
     setPrimLvl(obj.pl);
     setSecClass(obj.sc);
@@ -465,11 +489,11 @@ Wisdom: 48
     const skills = {
       primary: SKILLS[primClass]
         .filter((skill) => skill.level <= primLvl)
-        .map((skill) => skill.name),
+        .map((skill) => `${skill.level} - ${skill.name}`),
       secondary: secClass
         ? SKILLS[secClass]
             .filter((skill) => skill.level <= secLvl && skill.secondary)
-            .map((skill) => skill.name)
+            .map((skill) => `${skill.level} - ${skill.name}`)
         : [],
     };
 
@@ -498,10 +522,43 @@ Wisdom: 48
     setSnapshot(createSnapshot());
   };
 
+  const handleFocus = (event) => event.target.select();
+
+  React.useEffect(() => {
+    setResults("");
+    setSnapshot("");
+    setFormattedSheet("");
+    if (primClass && primLvl) {
+      calc();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    primClass,
+    primLvl,
+    secClass,
+    secLvl,
+    stamBonus,
+    dexBonus,
+    strBonus,
+    intBonus,
+    wisBonus,
+    name,
+  ]);
+
   return (
     <>
       <div className="header">Morgenheim Stat Calculator</div>
       <div className="left">
+        <p>Personal Details</p>
+        <FormControl className="outerFormControl">
+          <TextField
+            value={name}
+            onFocus={handleFocus}
+            onChange={(e) => setName(e.target.value)}
+          ></TextField>
+          <FormHelperText>Name</FormHelperText>
+        </FormControl>
+
         <p>Enter classes & levels</p>
         <FormControl className="outerFormControl">
           <Select
@@ -520,6 +577,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={primLvl}
             onChange={(e) => setPrimLvl(e.target.value)}
           ></TextField>
@@ -544,6 +602,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={secLvl}
             onChange={(e) => setSecLvl(e.target.value)}
           ></TextField>
@@ -553,6 +612,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={stamBonus}
             onChange={(e) => setStamBonus(e.target.value)}
           ></TextField>
@@ -561,6 +621,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={dexBonus}
             onChange={(e) => setDexBonus(e.target.value)}
           ></TextField>
@@ -569,6 +630,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={strBonus}
             onChange={(e) => setStrBonus(e.target.value)}
           ></TextField>
@@ -577,6 +639,7 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={intBonus}
             onChange={(e) => setIntBonus(e.target.value)}
           ></TextField>
@@ -585,24 +648,20 @@ Wisdom: 48
         <FormControl className="outerFormControl">
           <TextField
             type="number"
+            onFocus={handleFocus}
             value={wisBonus}
             onChange={(e) => setWisBonus(e.target.value)}
           ></TextField>
           <FormHelperText>Wisdom</FormHelperText>
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          className="submit"
-          disabled={!primClass || !primLvl}
-          onClick={calc}
-        >
-          Calculate Stats
+
+        <Button variant="contained" color="primary" onClick={reset}>
+          Reset
         </Button>
-        <Button onClick={reset}>Reset</Button>
         <p>Load saved stat snapshot</p>
         <textarea
           value={userEnteredSnapshot}
+          onFocus={handleFocus}
           onChange={(e) => {
             setUserEnteredSnapshot(e.target.value);
           }}
@@ -622,8 +681,13 @@ Wisdom: 48
           <pre className="results">{JSON.stringify(results, null, 4)}</pre>
         </div>
         <div>
-          <p>Snapshot:</p> <textarea value={snapshot} />
-          <p>Formatted Sheet:</p> <textarea value={formattedSheet} />
+          <p>Snapshot:</p> <textarea onFocus={handleFocus} value={snapshot} />
+          <p>Formatted Sheet:</p>{" "}
+          <textarea
+            className="formatted"
+            onFocus={handleFocus}
+            value={formattedSheet}
+          />
         </div>
       </div>
     </>
