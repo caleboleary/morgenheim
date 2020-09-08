@@ -435,11 +435,31 @@ Wisdom: 48
         ? `100/100 Concentration Points\n`
         : ``) +
       "Factions: ?\n" +
-      `Stamina: ${results.stats.stamina}\n` +
-      `Dexterity: ${results.stats.dexterity}\n` +
-      `Strength: ${results.stats.strength}\n` +
-      `Intelligence: ${results.stats.intelligence}\n` +
-      `Wisdom: ${results.stats.wisdom}\n`;
+      `Stamina: ${results.stats.stamina} ${
+        stamBonus !== "" && stamBonus !== "0"
+          ? `(${results.stats.stamina - stamBonus} + ${stamBonus})`
+          : ""
+      }\n` +
+      `Dexterity: ${results.stats.dexterity}${
+        dexBonus !== "" && dexBonus !== "0"
+          ? `(${results.stats.dexterity - dexBonus} + ${dexBonus})`
+          : ""
+      }\n` +
+      `Strength: ${results.stats.strength}${
+        strBonus !== "" && strBonus !== "0"
+          ? `(${results.stats.strength - strBonus} + ${strBonus})`
+          : ""
+      }\n` +
+      `Intelligence: ${results.stats.intelligence}${
+        intBonus !== "" && intBonus !== "0"
+          ? `(${results.stats.intelligence - intBonus} + ${intBonus})`
+          : ""
+      }\n` +
+      `Wisdom: ${results.stats.wisdom}${
+        wisBonus !== "" && wisBonus !== "0"
+          ? `(${results.stats.wisdom - wisBonus} + ${wisBonus})`
+          : ""
+      }\n`;
 
     return sheet;
   };
